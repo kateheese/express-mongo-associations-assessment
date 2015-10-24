@@ -1,0 +1,38 @@
+extends layout
+
+block content
+  a(href='/') Back to Brewery List
+  div.container
+    h1= brewery.name
+    h3= brewery.location
+    
+    div.row
+      div.col-md-4
+        h2 List of Beers
+        ul.list-group
+          if beers
+            for beer in beers
+              li.list-group-item
+                a(href='/breweries/' + brewery._id + '/beers/' + beer._id) #{beer.name}
+      div.col-md-2
+      div.col-md-4
+        h2 Add a Beer
+        include errors.jade
+        
+        form(action='/breweries/' + brewery._id + '/beers' method='POST')
+          div.form-group
+            label(for='name') Name
+            input.form-control(type='text' name='name' id='name' value=name)
+          div.form-group
+            label(for='style') Style
+            input.form-control(type='text' name='style' id='style' value=style)
+          div.form-group
+            label(for='description') Description
+            textarea.form-control(name='description' id='description' value=description)
+          div.form-group
+            label(for='alcohol') Alcohol %
+            div.input-group(aria-describedby="basic-addon2")
+              input.form-control(type='text' name='alcohol' id='alcohol' value=alcohol)
+              span.input-group-addon#basic-addon2 % ABV
+          div.form-group
+            input.btn.btn-primary(type='submit' value='Add')

@@ -1,5 +1,30 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  div.page-header
+    h1= title
+  div.container
+    div.row
+      div.col-md-8
+        h2 List of Breweries
+        ul.list-group
+          for brewery in breweries
+            li.list-group-item
+              a(href='/breweries/' + brewery._id) #{brewery.name} 
+              | - #{brewery.location}
+
+      div.col-md-4
+        h2 Add a Brewery
+        include errors.jade
+        
+        form(action='/' method='POST')
+          div.form-group
+            label(for='name') Name
+            input.form-control(type='text' name='name' id='name' value=name)
+          div.form-group
+            label(for='location') Location
+            div.input-group(aria-describedby="basic-addon2")
+              input.form-control(type='text' name='location' id='location' value=location)
+              span.input-group-addon#basic-addon2 CO
+          div.form-group
+            input.btn.btn-primary(type='submit' value='Add')

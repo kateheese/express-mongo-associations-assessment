@@ -1,0 +1,33 @@
+extends layout
+
+block content
+  a(href='/breweries/' + beer.breweryId) Back to Brewery
+  div.container
+    div.row
+      div.col-md-8
+        h1= beer.name
+        h3= beer.style
+        p #{beer.alcohol}% ABV
+        p= beer.description
+      div.col-md-4
+        h3 Where can I find it on tap?
+        ul.list-group
+          if taps
+            for tap in taps
+              li.list-group-item
+                a(href='/taps/' + tap._id) #{tap.name}
+        h4 Add location
+        ul
+          li Select location
+            div.form-group
+              select.form-control
+                if allTaps
+                  for oneTap in allTaps
+                    option() #{oneTap.name}
+          li or add a new location
+          form(action='/breweries/' + beer.breweryId + '/beers/' + beer._id + '/on-tap' method='POST')
+            div.form-group
+              label(for='name') Name
+              input.form-control(type='text' name='name' id='name' value=name)
+            div.form-group
+              input.btn.btn-primary(type='submit' value='Add')
