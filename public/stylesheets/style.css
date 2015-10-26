@@ -58,10 +58,6 @@ a {
   padding-left: 10px;
 }
 
-.header {
-  margin: 40px 40px 0 40px;
-}
-
 .beer {
   display: inline-block;
   padding-right: 20px;
@@ -70,4 +66,18 @@ a {
 #delete {
   display: inline-block;
   float: right;
+}
+
+.logo {
+  height: 30px;
+  float: left;
+  padding-right: 10px;
+}
+
+.navbar-brand {
+  line-height: 30px;
+}
+
+.navbar {
+  height: 60px;
 }

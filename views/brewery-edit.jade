@@ -1,6 +1,7 @@
 extends layout
 
 block content
+  include nav.jade
   div.container
     div.row
       div.col-md-4
@@ -17,7 +18,7 @@ block content
               select.form-control(id='location' name='location')
                 option(value='' disabled selected) Select City
                 each city in locations
-                  option(value=city selected=(brewery.location=city ? "selected" : undefined)) #{city}
+                  option(value=city selected=(brewery.location== city ? "selected" : undefined)) #{city}
               span.input-group-addon#basic-addon2 CO
           div.form-group
             input.btn.btn-primary(type='submit' value='Edit')

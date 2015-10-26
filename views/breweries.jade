@@ -1,32 +1,32 @@
 extends layout
 
 block content
+  include nav.jade
   div.container
-    div.header
-      div.row
-        div.col-md-7
-          h2 List of Breweries
-          ul.list-group
-            for brewery in breweries
-              li.list-group-item
-                a(href='/breweries/' + brewery._id) #{brewery.name} 
-                | - #{brewery.location}
-                a.edit(href='/breweries/' + brewery._id + '/edit') edit
-        div.col-md-1
-        div.col-md-4
-          h2 Add a Brewery
-          include errors.jade
-          form(action='/breweries' method='POST')
-            div.form-group
-              label(for='name') Name
-              input.form-control(type='text' name='name' id='name' value=name)
-            div.form-group
-              label(for='location') Location
-              div.input-group(aria-describedby="basic-addon2")
-                select.form-control(id='location' name='location')
-                  option(value='' disabled selected) Select City
-                  each city in locations
-                    option(value=city) #{city}
-                span.input-group-addon#basic-addon2 CO
-            div.form-group
-              input.btn.btn-primary(type='submit' value='Add')
+    div.row
+      div.col-md-7
+        h2 List of Breweries
+        ul.list-group
+          for brewery in breweries
+            li.list-group-item
+              a(href='/breweries/' + brewery._id) #{brewery.name} 
+              | - #{brewery.location}, CO
+              a.edit(href='/breweries/' + brewery._id + '/edit') edit
+      div.col-md-1
+      div.col-md-4
+        h2 Add a Brewery
+        include errors.jade
+        form(action='/breweries' method='POST')
+          div.form-group
+            label(for='name') Name
+            input.form-control(type='text' name='name' id='name' value=name)
+          div.form-group
+            label(for='location') Location
+            div.input-group(aria-describedby="basic-addon2")
+              select.form-control(id='location' name='location')
+                option(value='' disabled selected) Select City
+                each city in locations
+                  option(value=city) #{city}
+              span.input-group-addon#basic-addon2 CO
+          div.form-group
+            input.btn.btn-primary(type='submit' value='Add')

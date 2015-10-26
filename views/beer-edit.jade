@@ -1,29 +1,29 @@
 extends layout
 
 block content
-  div.header
-    div.container
-      div.col-md-4
-        h2 Edit #{beer.name}
-        include errors.jade
-        
-        form(action='/breweries/' + beer.breweryId + '/beers/' + beer._id + '/update' method='POST')
-          div.form-group
-            label(for='name') Name
-            input.form-control(type='text' name='name' id='name' value=beer.name)
-          div.form-group
-            label(for='style') Style
-            input.form-control(type='text' name='style' id='style' value=beer.style)
-          div.form-group
-            label(for='description') Description
-            textarea.form-control(name='description' id='description') #{beer.description}
-          div.form-group
-            label(for='alcohol') Alcohol %
-            div.input-group(aria-describedby="basic-addon2")
-              input.form-control(type='text' name='alcohol' id='alcohol' value=beer.alcohol)
-              span.input-group-addon#basic-addon2 % ABV
-          div.form-group
-            input.btn.btn-primary(type='submit' value='Edit')
-            a.cancel(href='/breweries/' + beer.breweryId + '/beers/' + beer._id) cancel
-        form(action='/breweries/' + beer.breweryId + '/beers/' + beer._id + '/delete' method='POST')
-          input.btn.btn-danger(type='submit' value='Delete')
+  include nav.jade
+  div.container
+    div.col-md-4
+      h2 Edit #{beer.name}
+      include errors.jade
+      
+      form(action='/breweries/' + beer.breweryId + '/beers/' + beer._id + '/update' method='POST')
+        div.form-group
+          label(for='name') Name
+          input.form-control(type='text' name='name' id='name' value=beer.name)
+        div.form-group
+          label(for='style') Style
+          input.form-control(type='text' name='style' id='style' value=beer.style)
+        div.form-group
+          label(for='description') Description
+          textarea.form-control(name='description' id='description') #{beer.description}
+        div.form-group
+          label(for='alcohol') Alcohol %
+          div.input-group(aria-describedby="basic-addon2")
+            input.form-control(type='text' name='alcohol' id='alcohol' value=beer.alcohol)
+            span.input-group-addon#basic-addon2 % ABV
+        div.form-group
+          input.btn.btn-primary(type='submit' value='Edit')
+          a.cancel(href='/breweries/' + beer.breweryId + '/beers/' + beer._id) cancel
+      form(action='/breweries/' + beer.breweryId + '/beers/' + beer._id + '/delete' method='POST')
+        input.btn.btn-danger(type='submit' value='Delete')

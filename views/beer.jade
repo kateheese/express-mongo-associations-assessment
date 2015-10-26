@@ -1,39 +1,36 @@
 extends layout
 
 block content
-  div.header
-    a(href='/breweries/' + beer.breweryId) Back to Brewery
-    div.container
-      div.row
-        div.col-md-7
-          h1.beer= beer.name
-          a(href='/breweries/' + beer.breweryId + '/beers/' + beer._id + '/edit') edit
-          h3= beer.style
-          p #{beer.alcohol}% ABV
-          p= beer.description
-        div.col-md-1
-        div.col-md-4
-          h3 Where can I find it on tap?
-          ul.list-group
-            if taps
-              for tap in taps
-                li.list-group-item
-                  a(href='/breweries/' + beer.breweryId + '/beers/' + beer._id + '/taps/' + tap._id) #{tap.name}
-                  form(id='delete' action='/breweries/' + beer.breweryId + '/beers/' + beer._id + '/taps/' + tap._id + '/delete' method='POST')
-                    a(href="#" onclick="document.getElementById('delete').submit();") delete
-          h4 Add location
-          ul
-            li Select location
+  include nav.jade
+  div.container
+    div.row
+      div.col-md-7
+        h1.beer= beer.name
+        a(href='/breweries/' + beer.breweryId + '/beers/' + beer._id + '/edit') edit
+        h3= beer.style
+        p #{beer.alcohol}% ABV
+        p= beer.description
+      div.col-md-1
+      div.col-md-4
+        h3 Where can I find it on tap?
+        ul.list-group
+          if taps
+            for tap in taps
+              li.list-group-item
+                a(href='/breweries/' + beer.breweryId + '/beers/' + beer._id + '/taps/' + tap._id) #{tap.name}
+                form(id='delete' action='/breweries/' + beer.breweryId + '/beers/' + beer._id + '/taps/' + tap._id + '/delete' method='POST')
+                  a(href="#" onclick="document.getElementById('delete').submit();") delete
+        h4 Add location
+        ul
+          li Select location
+            form(action='/breweries/' + beer.breweryId + '/beers/' + beer._id + '/taps' method='POST')
               div.form-group
                 select.form-control(id='location' name='location')
                   option(value='' disabled selected) Select
                   if allTaps
                     for oneTap in allTaps
-                      option(value=oneTap) #{oneTap.name}
-            li or add a new location
-            form(action='/breweries/' + beer.breweryId + '/beers/' + beer._id + '/taps' method='POST')
-              div.form-group
-                label(for='name') Name
-                input.form-control(type='text' name='name' id='name' value=name)
+                      option(value=oneTap._id) #{oneTap.name}
               div.form-group
                 input.btn.btn-primary(type='submit' value='Add')
+          li or add a 
+            a(href='/breweries/' + beer.breweryId + '/beers/' + beer._id + '/taps/new') new location

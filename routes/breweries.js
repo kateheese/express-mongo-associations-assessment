@@ -138,8 +138,20 @@ router.post('/:breweryId/beers/:id/delete', function(req, res, next) {
   });
 });
 
+router.get('/:breweryId/beers/:id/taps/new', function(req, res, next) {
+  res.render('new-tap', { title: 'New Tap', beerId: req.params.id, breweryId: req.params.breweryId });
+});
+
+router.post('/:breweryId/beers/:id/taps/new', function(req, res, next) {
+  lookups.newTap(req.body.name).then(function(tap) {
+    lookups.addTap(req.params.id, tap._id).then(function() {
+      res.redirect('/breweries/' + req.params.breweryId + '/beers/' + req.params.id);
+    })
+  })
+});
+
 router.post('/:breweryId/beers/:id/taps', function(req, res, next) {
-  lookups.addTap(req.params.id, req.body.name).then(function() {
+  lookups.addTap(req.params.id, req.body.location).then(function() {
     res.redirect('/breweries/' + req.params.breweryId + '/beers/' + req.params.id);
   })
 });

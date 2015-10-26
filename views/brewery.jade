@@ -1,8 +1,7 @@
 extends layout
 
 block content
-  div.header
-    a(href='/breweries') Back to Brewery List
+  include nav.jade
   div.container
     h1= brewery.name
     h3= brewery.location
