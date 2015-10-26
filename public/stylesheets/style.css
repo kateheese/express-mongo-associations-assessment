@@ -1,8 +1,73 @@
 body {
-  padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
   color: #00B7FF;
+}
+
+.background {
+  height: 100vh;
+  background-image: url('/images/colorado-beer.jpg');
+  background-size: cover;
+  opacity: 0.7;
+}
+
+.nav-home {
+  color: white;
+}
+
+.link:hover {
+  text-decoration: none;
+}
+
+.home {
+  color: white;
+  margin-bottom: 40px;
+  font-size: 50px;
+}
+
+.button:hover {
+  background-color: white;
+  color: #6D7F8D;
+  text-decoration: none;
+}
+
+.button {
+  display: inline;
+  padding: 10px 20px 10px 20px;
+  border: 3px solid white;
+  margin: 20px;
+  color: white;
+  font-size: 20px;
+}
+
+.center {
+  text-align: center;
+}
+
+.vertical-center {
+  padding-top: 250px;
+}
+
+.edit {
+  float: right;
+}
+
+.cancel {
+  padding-left: 10px;
+}
+
+.header {
+  margin: 40px 40px 0 40px;
+}
+
+.beer {
+  display: inline-block;
+  padding-right: 20px;
+}
+
+#delete {
+  display: inline-block;
+  float: right;
 }

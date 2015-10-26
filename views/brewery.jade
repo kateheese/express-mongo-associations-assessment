@@ -1,7 +1,8 @@
 extends layout
 
 block content
-  a(href='/') Back to Brewery List
+  div.header
+    a(href='/breweries') Back to Brewery List
   div.container
     h1= brewery.name
     h3= brewery.location
