@@ -1,5 +1,5 @@
-ERD diagram of app model
+ERD diagram of brewery application model
 
-![](brewery_ERD.jpg)
+![](brewery_ERD.png)
 
 https://ancient-dawn-5655.herokuapp.com
