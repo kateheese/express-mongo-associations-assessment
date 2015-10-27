@@ -9,7 +9,7 @@ block content
         ul.list-group
           for brewery in breweries
             li.list-group-item
-              a(href='/breweries/' + brewery._id) #{brewery.name}
+              a(href='/breweries/' + brewery._id) #{brewery.name} 
               | - #{brewery.city}, CO
               a.edit(href='/breweries/' + brewery._id + '/edit') edit
       div.col-md-1
