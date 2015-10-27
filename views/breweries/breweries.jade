@@ -1,7 +1,7 @@
-extends layout
+extends ../layout
 
 block content
-  include nav.jade
+  include ../nav.jade
   div.container
     div.row
       div.col-md-7
@@ -9,13 +9,13 @@ block content
         ul.list-group
           for brewery in breweries
             li.list-group-item
-              a(href='/breweries/' + brewery._id) #{brewery.name} 
+              a(href='/breweries/' + brewery._id) #{brewery.name}
               | - #{brewery.city}, CO
               a.edit(href='/breweries/' + brewery._id + '/edit') edit
       div.col-md-1
       div.col-md-4
         h2 Add a Brewery
-        include errors.jade
+        include ../errors.jade
         form(action='/breweries' method='POST')
           div.form-group
             label(for='name') Name

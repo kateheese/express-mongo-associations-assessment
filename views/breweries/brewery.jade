@@ -1,11 +1,10 @@
-extends layout
+extends ../layout
 
 block content
-  include nav.jade
+  include ../nav.jade
   div.container
     h1= brewery.name
     h4 #{brewery.address}, #{brewery.city}, CO
-    
     div.row
       div.col-md-4
         h2 List of Beers
@@ -17,8 +16,7 @@ block content
       div.col-md-2
       div.col-md-4
         h2 Add a Beer
-        include errors.jade
-        
+        include ../errors.jade
         form(action='/breweries/' + brewery._id + '/beers' method='POST')
           div.form-group
             label(for='name') Name

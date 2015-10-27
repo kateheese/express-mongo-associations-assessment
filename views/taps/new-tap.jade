@@ -1,12 +1,12 @@
-extends layout
+extends ../layout
 
 block content
-  include nav.jade
+  include ../nav.jade
   div.container
     div.row
       div.col-md-4
         h1 Add Location
-        include errors.jade
+        include ../errors.jade
         ul
           li
             h4 Select location
@@ -20,7 +20,7 @@ block content
               div.form-group
                 input.btn.btn-primary(type='submit' value='Add')
                 a.cancel(href='/breweries/' + breweryId + '/beers/' + beerId) cancel
-          li 
+          li
             h4 or add a new location
             form(action='/breweries/' + breweryId + '/beers/' + beerId + '/taps/new' method='POST')
               div.form-group

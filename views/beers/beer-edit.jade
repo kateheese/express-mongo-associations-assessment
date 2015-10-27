@@ -1,12 +1,11 @@
-extends layout
+extends ../layout
 
 block content
-  include nav.jade
+  include ../nav.jade
   div.container
     div.col-md-4
       h2 Edit #{beer.name}
-      include errors.jade
-      
+      include ../errors.jade
       form(action='/breweries/' + beer.breweryId + '/beers/' + beer._id + '/update' method='POST')
         div.form-group
           label(for='name') Name
