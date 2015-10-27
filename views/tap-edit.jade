@@ -8,23 +8,23 @@ block content
         h2=title
         include errors.jade
         
-        form(action='/breweries/' + brewery._id + '/update' method='POST')
+        form(action='/breweries/' + breweryId + '/beers/' + beerId + '/taps/' + tap._id + '/update' method='POST')
           div.form-group
             label(for='name') Name
-            input.form-control(type='text' name='name' id='name' value=brewery.name)
+            input.form-control(type='text' name='name' id='name' value=tap.name)
           div.form-group
             label(for='address') Address Line 1
-            input.form-control(type='text' name='address' id='address' value=address)
+            input.form-control(type='text' name='address' id='address' value=tap.address)
           div.form-group
             label(for='city') City
             div.input-group(aria-describedby="basic-addon2")
               select.form-control(id='city' name='city')
                 option(value='' disabled selected) Select
                 each place in locations
-                  option(value=place selected=(brewery.city== place ? "selected" : undefined)) #{place}
+                  option(value=place selected=(tap.city== place ? "selected" : undefined)) #{place}
               span.input-group-addon#basic-addon2 CO
           div.form-group
             input.btn.btn-primary(type='submit' value='Edit')
-            a.cancel(href='/breweries') cancel
-        form(action=href='/breweries/' + brewery._id + '/delete' method='POST')
+            a.cancel(href='/breweries/' + breweryId + '/beers/' + beerId + '/taps/' + tap._id) cancel
+        form(action=href='/breweries/' + breweryId + '/beers/' + beerId + '/taps/' + tap._id + '/delete' method='POST')
           input.btn.btn-danger(type='submit' value='Delete')

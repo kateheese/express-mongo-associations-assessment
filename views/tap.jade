@@ -5,10 +5,12 @@ block content
   div.container
     div.row
       div.col-md-6
-        h1= tap.name
+        h1.inline= tap.name
+        a(href='/breweries/' + breweryId + '/beers/' + beerId + '/taps/' + tap._id + '/edit') edit
+        h4 #{tap.address}, #{tap.city}, CO
         h2 List of Beers on Tap
         ul.list-group
           if beers
             for beer in beers
               li.list-group-item
-                a(href='/breweries/' + beer.breweryId + '/beers/' + beer._id) #{beer.name}
+                a(href='/breweries/' + breweryId + '/beers/' + beerId) #{beer.name}

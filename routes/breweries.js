@@ -15,7 +15,10 @@ router.post('/', function(req, res, next) {
     if(!req.body.name.trim()) {
       errors.push("Name can't be blank");
     }
-    if(req.body.location == undefined) {
+    if(!req.body.address.trim()) {
+      errors.push("Address can't be blank");
+    }
+    if(req.body.city == undefined) {
       errors.push("Please select a city");
     }
     if(brewery.length) {
@@ -26,13 +29,14 @@ router.post('/', function(req, res, next) {
         res.render('breweries', { 
           title: 'Colorado Breweries',
           name: req.body.name, 
-          location: req.body.location, 
+          address: req.body.address,
+          city: req.body.city, 
           errors: errors, 
           breweries: breweries,
           locations: locations })
       });
     } else {
-      lookups.addBrewery(req.body.name, req.body.location).then(function() {
+      lookups.addBrewery(req.body.name, req.body.address, req.body.city).then(function() {
         res.redirect('/breweries');
       })
     }
@@ -58,7 +62,7 @@ router.get('/:id/edit', function(req, res, next) {
 });
 
 router.post('/:id/update', function(req, res, next) {
-  lookups.editBrewery(req.params.id, req.body.name, req.body.location).then(function() {
+  lookups.editBrewery(req.params.id, req.body.name, req.body.address, req.body.city).then(function() {
     res.redirect('/breweries');
   });
 });
@@ -111,10 +115,10 @@ router.get('/:breweryId/beers/:id', function(req, res, next) {
     lookups.getAllTaps().then(function(allTaps) {
       if(beer.tapIds.length > 0) {
         lookups.getTaps(beer.tapIds).then(function(taps) {
-          res.render('beer', { title: beer.name, beer: beer, taps: taps, allTaps: allTaps })
+          res.render('beer', { title: beer.name, beer: beer, taps: taps, allTaps: allTaps, locations: locations })
         })
       } else {
-      res.render('beer', { title: beer.name, beer: beer, allTaps: allTaps })
+      res.render('beer', { title: beer.name, beer: beer, allTaps: allTaps, locations: locations })
       }
     })
   })
@@ -139,35 +143,104 @@ router.post('/:breweryId/beers/:id/delete', function(req, res, next) {
 });
 
 router.get('/:breweryId/beers/:id/taps/new', function(req, res, next) {
-  res.render('new-tap', { title: 'New Tap', beerId: req.params.id, breweryId: req.params.breweryId });
+  lookups.getAllTaps().then(function(taps) {
+    res.render('new-tap', { title: 'New Tap', 
+      beerId: req.params.id, 
+      breweryId: req.params.breweryId, 
+      locations: locations,
+      taps: taps });
+  })
 });
 
 router.post('/:breweryId/beers/:id/taps/new', function(req, res, next) {
-  lookups.newTap(req.body.name).then(function(tap) {
-    lookups.addTap(req.params.id, tap._id).then(function() {
-      res.redirect('/breweries/' + req.params.breweryId + '/beers/' + req.params.id);
-    })
+  lookups.getAllTaps().then(function(taps) {
+    var errors = [];
+    if(!req.body.name.trim()) {
+      errors.push("Name can't be blank");
+    }
+    if(!req.body.address.trim()) {
+      errors.push("Address can't be blank");
+    }
+    if(req.body.city == undefined) {
+      errors.push("Please select a city");
+    }
+    if(errors.length) {
+      res.render('new-tap', { title: 'New Tap', 
+        beerId: req.params.id, 
+        taps: taps,
+        breweryId: req.params.breweryId, 
+        name: req.body.name, 
+        address: req.body.address,
+        errors: errors,
+        locations: locations })
+    } else {
+      lookups.newTap(req.body.name, req.body.address, req.body.city).then(function(tap) {
+        lookups.addTap(req.params.id, tap._id).then(function() {
+          res.redirect('/breweries/' + req.params.breweryId + '/beers/' + req.params.id);
+        })
+      })
+    }
   })
 });
 
 router.post('/:breweryId/beers/:id/taps', function(req, res, next) {
-  lookups.addTap(req.params.id, req.body.location).then(function() {
-    res.redirect('/breweries/' + req.params.breweryId + '/beers/' + req.params.id);
-  })
+  lookups.getAllTaps().then(function(taps) {
+    var errors = [];
+    if(req.body.location == undefined) {
+      errors.push("Please select a location");
+    }
+    if(errors.length) {
+      res.render('new-tap', { title: 'New Tap', 
+      beerId: req.params.id, 
+      taps: taps,
+      breweryId: req.params.breweryId, 
+      name: req.body.name, 
+      address: req.body.address,
+      errors: errors,
+      locations: locations })
+    } else {
+      lookups.addTap(req.params.id, req.body.location).then(function() {
+        res.redirect('/breweries/' + req.params.breweryId + '/beers/' + req.params.id);
+      })
+    }
+  });
 });
 
 router.get('/:breweryId/beers/:beerId/taps/:id', function(req, res, next) {
   lookups.getTap(req.params.id).then(function(tap) {
     lookups.getBeers(tap.beerIds).then(function(beers) {
-      res.render('tap', { title: tap.name, beers: beers, tap: tap });
+      res.render('tap', { title: tap.name, beers: beers, tap: tap, breweryId: req.params.breweryId, beerId: req.params.beerId });
     })
   })
 });
 
+router.get('/:breweryId/beers/:beerId/taps/:id/edit', function(req, res, next) {
+  lookups.getTap(req.params.id).then(function(tap) {
+    lookups.getBeers(tap.beerIds).then(function(beers) {
+      res.render('tap-edit', { title: 'Edit ' + tap.name, 
+        beers: beers, 
+        tap: tap, 
+        breweryId: req.params.breweryId, 
+        beerId: req.params.beerId, 
+        locations: locations });
+    })
+  })
+});
+
+router.post('/:breweryId/beers/:beerId/taps/:id/update', function(req, res, next) {
+
+});
+
 router.post('/:breweryId/beers/:beerId/taps/:id/delete', function(req, res, next) {
-  lookups.deleteBeerTap(req.params.beerId, req.params.id).then(function() {
+  lookups.deleteTap(req.params.id).then(function() {
     res.redirect('/breweries/' + req.params.breweryId + '/beers/' + req.params.beerId);
   })
-})
+});
+
+router.post('/:breweryId/beers/:beerId/taps/:id/remove', function(req, res, next) {
+  lookups.removeBeerTap(req.params.beerId, req.params.id).then(function() {
+    res.redirect('/breweries/' + req.params.breweryId + '/beers/' + req.params.beerId);
+  })
+});
 
 module.exports = router;

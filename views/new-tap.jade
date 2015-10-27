@@ -5,13 +5,38 @@ block content
   div.container
     div.row
       div.col-md-4
-        h2=title
+        h1 Add Location
         include errors.jade
-        
-        form(action='/breweries/' + breweryId + '/beers/' + beerId + '/taps/new' method='POST')
-          div.form-group
-            label(for='name') Name
-            input.form-control(type='text' name='name' id='name')
-          div.form-group
-            input.btn.btn-primary(type='submit' value='Add')
-            a.cancel(href='#') cancel
+        ul
+          li
+            h4 Select location
+            form(action='/breweries/' + breweryId + '/beers/' + beerId + '/taps' method='POST')
+              div.form-group
+                select.form-control(id='location' name='location')
+                  option(value='' disabled selected) Select
+                  if taps
+                    for tap in taps
+                      option(value=tap._id) #{tap.name}
+              div.form-group
+                input.btn.btn-primary(type='submit' value='Add')
+                a.cancel(href='/breweries/' + breweryId + '/beers/' + beerId) cancel
+          li 
+            h4 or add a new location
+            form(action='/breweries/' + breweryId + '/beers/' + beerId + '/taps/new' method='POST')
+              div.form-group
+                label(for='name') Name
+                input.form-control(type='text' name='name' id='name' value=name)
+              div.form-group
+                label(for='address') Address Line 1
+                input.form-control(type='text' name='address' id='address' value=address)
+              div.form-group
+                label(for='city') City
+                div.input-group(aria-describedby="basic-addon2")
+                  select.form-control(id='city' name='city')
+                    option(value='' disabled selected) Select
+                    each place in locations
+                      option(value=place) #{place}
+                  span.input-group-addon#basic-addon2 CO
+              div.form-group
+                input.btn.btn-primary(type='submit' value='Add')
+                a.cancel(href='/breweries/' + breweryId + '/beers/' + beerId) cancel
