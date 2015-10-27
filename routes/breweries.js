@@ -202,7 +202,7 @@ router.get('/:breweryId/beers/:beerId/taps/:id', function(req, res, next) {
 
 router.get('/:breweryId/beers/:beerId/taps/:id/edit', function(req, res, next) {
   lookups.getTap(req.params.id).then(function(tap) {
-    lookups.getBeers(tap.beerIds).then(function(beers) {
+    lookups.getBeersTap(tap.beerIds).then(function(beers) {
       res.render('taps/tap-edit', { title: 'Edit ' + tap.name,
         beers: beers,
         tap: tap,
