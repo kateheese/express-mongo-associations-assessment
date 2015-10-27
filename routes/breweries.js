@@ -45,13 +45,9 @@ router.post('/', function(req, res, next) {
 
 router.get('/:id', function(req, res, next) {
   lookups.getBrewery(req.params.id).then(function(brewery) {
-    if(brewery.beerIds.length > 0) {
-      lookups.getBeers(brewery.beerIds).then(function(beers) {
-        res.render('breweries/brewery', { title: brewery.name, brewery: brewery, beers: beers });
-      });
-    } else {
-      res.render('breweries/brewery', { title: brewery.name, brewery: brewery });
-    }
+    lookups.getBeers(brewery._id).then(function(beers) {
+      res.render('breweries/brewery', { title: brewery.name, brewery: brewery, beers: beers });
+    });
   })
 })
 
@@ -81,26 +77,16 @@ router.post('/:id/beers', function(req, res, next) {
     }
     if(errors.length) {
       lookups.getBrewery(req.params.id).then(function(brewery) {
-        if(brewery.beerIds.length > 0) {
-          lookups.getBeers(brewery.beerIds).then(function(beers) {
-            res.render('breweries/brewery', { title: brewery.name,
-              brewery: brewery,
-              beers: beers,
-              errors: errors,
-              name: req.body.name,
-              style: req.body.style,
-              description: req.body.description,
-              alcohol: req.body.alcohol });
-          });
-        } else {
-          res.render('brewery', { title: brewery.name,
+        lookups.getBeers(brewery._id).then(function(beers) {
+          res.render('breweries/brewery', { title: brewery.name,
             brewery: brewery,
+            beers: beers,
             errors: errors,
             name: req.body.name,
             style: req.body.style,
             description: req.body.description,
             alcohol: req.body.alcohol });
-        }
+        });
       })
     } else {
       lookups.addBeer(req.params.id, req.body.name, req.body.style, req.body.description, req.body.alcohol).then(function() {
